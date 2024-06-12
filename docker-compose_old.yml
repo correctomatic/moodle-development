@@ -1,0 +1,30 @@
+services:
+  web:
+    image: moodlehq/moodle-php-apache:7.4
+    ports:
+      - "8080:80"
+      - "9003:9003"  # Xdebug port
+    volumes:
+      - ./moodle:/var/www/html
+      - moodledata:/var/www/moodledata
+      - ./php.ini:/var/www/html/php.ini # For debugging
+    depends_on:
+      - db
+    environment:
+      - MOODLE_DOCKER_DB=pgsql
+      - MOODLE_DOCKER_WEB_HOST=web
+      - XDEBUG_MODE=debug
+      - XDEBUG_CONFIG=remote_enable=1 remote_autostart=1 remote_host=host.docker.internal remote_port=9003
+
+  db:
+    image: postgres:13
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: moodle
+      POSTGRES_USER: moodle
+      POSTGRES_PASSWORD: moodle
+
+volumes:
+  moodledata:
+  pgdata:
