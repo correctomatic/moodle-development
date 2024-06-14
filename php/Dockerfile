@@ -11,12 +11,17 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     zip \
     libzip-dev \
+    libpq-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install pdo pdo_mysql mbstring gd xml zip
+    && docker-php-ext-install pdo pdo_mysql mbstring gd xml zip pgsql
 
 # Install Xdebug
 RUN pecl install xdebug \
     && docker-php-ext-enable xdebug
+
+# Debug tools
+RUN apt-get install -y procps iputils-ping \
+    && echo "alias ll='ls -la'" >> /root/.bashrc
 
 # Clean up
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*

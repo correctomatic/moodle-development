@@ -15,6 +15,7 @@ services:
     build:
       context: .
       dockerfile: php/Dockerfile
+    command: ["/bin/sh", "-c", "chown -R www-data:www-data /var/www/moodledata && chmod -R 777 /var/www/moodledata && php-fpm"]
     networks:
       - internal
     environment:
@@ -22,21 +23,29 @@ services:
       - MOODLE_DOCKER_WEB_HOST=web
       - XDEBUG_MODE=debug
       - XDEBUG_CONFIG=client_host=host.docker.internal client_port=9003
+    # user:
+      # 1000:1000
     volumes:
       - ./moodle/:/var/www/html
       # - ./php.ini:/var/www/html/php.ini
       # - ./php.ini:/usr/local/etc/php-fpm.d/php.conf
       # - ./phpinfo.php:/var/www/html/phpinfo.php
+      - moodledata:/var/www/moodledata:rw
       - ./docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
+      # - ./moodledata:/var/www/moodledata
       - moodledata:/var/www/moodledata
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
   db:
     image: postgres:13
+    networks:
+      - internal
     volumes:
       - pgdata:/var/lib/postgresql/data
+    ports:
+      - "15432:5432"
     environment:
       POSTGRES_DB: moodle
       POSTGRES_USER: moodle
