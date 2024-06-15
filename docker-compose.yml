@@ -1,23 +1,27 @@
 services:
   nginx:
     build:
-      context: .
+      context: ./nginx
       dockerfile: nginx/Dockerfile
+    container_name: lti_nginx
     ports:
       # MUST match the port number in default.conf in the line: fastcgi_param SERVER_PORT 8080;
       - "8080:80"
     networks:
-      - internal
+      internal:
+        ipv4_address: 172.20.0.5
     volumes:
       - ./moodle/:/var/www/html
 
   php:
     build:
-      context: .
+      context: ./php
       dockerfile: php/Dockerfile
     command: ["/bin/sh", "-c", "chown -R www-data:www-data /var/www/moodledata && chmod -R 777 /var/www/moodledata && php-fpm"]
+    container_name: lti_php
     networks:
-      - internal
+      internal:
+        ipv4_address: 172.20.0.2
     environment:
       - MOODLE_DOCKER_DB=pgsql
       - MOODLE_DOCKER_WEB_HOST=web
@@ -35,8 +39,10 @@ services:
 
   db:
     image: postgres:13
+    container_name: lti_postgres
     networks:
-      - internal
+      internal:
+        ipv4_address: 172.20.0.3
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
@@ -46,9 +52,32 @@ services:
       POSTGRES_USER: moodle
       POSTGRES_PASSWORD: moodle
 
+  dns:
+    build:
+      context: ./dns
+      dockerfile: Dockerfile
+    # image: andyshinn/dnsmasq:2.78
+    container_name: lti_dns
+    command: [
+      "--address=/moodle.lti/172.20.0.5",
+      "--address=/app.lti/172.20.0.10"
+    ]
+    networks:
+      internal:
+        ipv4_address: 172.20.0.15
+    ports:
+      - "3535:53/tcp"
+      - "3535:53/udp"
+    cap_add:
+      - NET_ADMIN
+
 networks:
   internal:
+    name: lti_network
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
 
 volumes:
   moodledata:
