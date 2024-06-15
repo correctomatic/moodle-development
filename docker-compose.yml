@@ -2,7 +2,7 @@ services:
   nginx:
     build:
       context: ./nginx
-      dockerfile: nginx/Dockerfile
+      dockerfile: Dockerfile
     container_name: lti_nginx
     ports:
       # MUST match the port number in default.conf in the line: fastcgi_param SERVER_PORT 8080;
@@ -16,7 +16,7 @@ services:
   php:
     build:
       context: ./php
-      dockerfile: php/Dockerfile
+      dockerfile: Dockerfile
     command: ["/bin/sh", "-c", "chown -R www-data:www-data /var/www/moodledata && chmod -R 777 /var/www/moodledata && php-fpm"]
     container_name: lti_php
     networks:
@@ -56,12 +56,7 @@ services:
     build:
       context: ./dns
       dockerfile: Dockerfile
-    # image: andyshinn/dnsmasq:2.78
     container_name: lti_dns
-    command: [
-      "--address=/moodle.lti/172.20.0.5",
-      "--address=/app.lti/172.20.0.10"
-    ]
     networks:
       internal:
         ipv4_address: 172.20.0.15
