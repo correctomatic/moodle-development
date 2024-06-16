@@ -6,7 +6,7 @@ services:
     container_name: lti_nginx
     ports:
       # MUST match the port number in default.conf in the line: fastcgi_param SERVER_PORT 8080;
-      - "8080:80"
+      - "80:80"
     networks:
       internal:
         ipv4_address: 172.20.0.5

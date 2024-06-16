@@ -6,7 +6,7 @@ $CFG = new stdClass();
 
 $CFG->dbtype    = 'pgsql';
 $CFG->dblibrary = 'native';
-$CFG->dbhost    = 'db';
+$CFG->dbhost    = 'postgress.lti';
 $CFG->dbname    = 'moodle';
 $CFG->dbuser    = 'moodle';
 $CFG->dbpass    = 'moodle';
@@ -17,7 +17,7 @@ $CFG->dboptions = array (
   'dbsocket' => '',
 );
 
-$CFG->wwwroot   = 'http://localhost:8080';
+$CFG->wwwroot   = 'http://moodle.lti';
 $CFG->dataroot  = '/var/www/moodledata';
 $CFG->admin     = 'admin';
 

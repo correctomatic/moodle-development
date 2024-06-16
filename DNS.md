@@ -1,10 +1,13 @@
 Lo más fácil va a ser meter en el /etc/hosts las entradas:
-moodle.lti  172.20.0.5
-app.lti     172.20.0.10
 
-# Estos no hacen falta en principio
-php.lti       172.20.0.2
-postgress.lti 172.20.0.3
+# -------------------------------------------
+# Entradas para desarrollo de aplicaciones LTI
+# -------------------------------------------
+172.20.0.5  moodle.lti
+172.20.0.10 app.lti
+# (Estos no hacen falta en principio)
+172.20.0.2  php.lti
+172.20.0.3  postgress.lti
 
 # This is the address of the LTI server
 # It's run in a separate project, but MUST have this address
