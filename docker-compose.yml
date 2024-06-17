@@ -1,4 +1,19 @@
 services:
+
+  dns:
+    build:
+      context: ./dns
+      dockerfile: Dockerfile
+    container_name: lti_dns
+    networks:
+      internal:
+        ipv4_address: 172.20.0.100
+    ports:
+      - "3535:53/tcp"
+      - "3535:53/udp"
+    cap_add:
+      - NET_ADMIN
+
   nginx:
     build:
       context: ./nginx
@@ -10,6 +25,7 @@ services:
     networks:
       internal:
         ipv4_address: 172.20.0.5
+    dns: 172.20.0.100
     volumes:
       - ./moodle/:/var/www/html
 
@@ -22,6 +38,7 @@ services:
     networks:
       internal:
         ipv4_address: 172.20.0.2
+    dns: 172.20.0.100
     environment:
       - MOODLE_DOCKER_DB=pgsql
       - MOODLE_DOCKER_WEB_HOST=web
@@ -43,6 +60,7 @@ services:
     networks:
       internal:
         ipv4_address: 172.20.0.3
+    dns: 172.20.0.100
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
@@ -51,20 +69,6 @@ services:
       POSTGRES_DB: moodle
       POSTGRES_USER: moodle
       POSTGRES_PASSWORD: moodle
-
-  dns:
-    build:
-      context: ./dns
-      dockerfile: Dockerfile
-    container_name: lti_dns
-    networks:
-      internal:
-        ipv4_address: 172.20.0.15
-    ports:
-      - "3535:53/tcp"
-      - "3535:53/udp"
-    cap_add:
-      - NET_ADMIN
 
 networks:
   internal:

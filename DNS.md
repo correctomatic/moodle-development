@@ -1,4 +1,5 @@
-Lo más fácil va a ser meter en el /etc/hosts las entradas:
+You need to temporarily set the DNS server to the IP of the DNS server in the Docker container. OR you can add the
+entries defined in dns/dnsmasq.conf to your /etc/hosts file.
 
 # -------------------------------------------
 # Entradas para desarrollo de aplicaciones LTI
