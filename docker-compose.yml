@@ -19,9 +19,6 @@ services:
       context: ./nginx
       dockerfile: Dockerfile
     container_name: lti_nginx
-    ports:
-      # MUST match the port number in default.conf in the line: fastcgi_param SERVER_PORT 8080;
-      - "80:80"
     networks:
       internal:
         ipv4_address: 172.20.0.5
@@ -44,8 +41,6 @@ services:
       - MOODLE_DOCKER_WEB_HOST=web
       - XDEBUG_MODE=debug
       - XDEBUG_CONFIG=client_host=host.docker.internal client_port=9003
-    # user:
-      # 1000:1000
     volumes:
       - ./moodle/:/var/www/html
       - moodledata:/var/www/moodledata:rw
