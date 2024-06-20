@@ -9,10 +9,6 @@ You will need a copy of the Moodle code in the `moodle` directory. You can clone
 ```sh
 git clone -b v<moodle version> https://github.com/moodle/moodle.git moodle
 ```
-After that, bring up the containers:
-```bash
-docker-compose up
-```
 
 You will also need to use on your host the DNS server provided by the environment. The DNS server exposes port `3535`. It resolves the `*.lti` domain to the development containers, and redirects the other requests to `8.8.8.8` by default. Alternatively, you can modify your host's host file adding the following entries:
 
@@ -23,6 +19,11 @@ You will also need to use on your host the DNS server provided by the environmen
 172.20.0.5  moodle.lti
 172.20.0.10 app.lti
 172.20.0.1 app.host.lti
+```
+
+After that, bring up the containers:
+```bash
+docker-compose up
 ```
 
 Then follow the Moodle installation process at `http://moodle.lti`. The database credentials are:
@@ -37,7 +38,7 @@ The environment will create the following containers:
 - `lti_dns`: DNS server. More on this later.
 - `lti_nginx` (DNS record: `moodle.lti`): Web server, redirects requests to the PHP-FPM container.
 - `lti_php` (DNS record: `php.lti`): PHP-FPM container, serving the Moodle code.
-- `lti_postgress` (DNS record: `postgress.lti`): PostgreSQL database.
+- `lti_postgres` (DNS record: `postgres.lti`): PostgreSQL database.
 
 The environment also creates a network called `lti_network`. All containers are connected to this network, and have
 fixed IP addresses. The address `172.20.0.10` is reserved for the LTI development server that you will use with this environment.
