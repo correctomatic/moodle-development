@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y \
     libxmlrpc-epi-dev
 
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install pdo pdo_mysql mbstring gd xml zip pgsql intl soap
+    && docker-php-ext-install pdo pdo_mysql mbstring gd xml zip pgsql intl soap exif
 
 # Install Xdebug
 RUN pecl install xdebug \
