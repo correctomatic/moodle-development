@@ -50,7 +50,7 @@ services:
       - "host.docker.internal:host-gateway"
 
   db:
-    image: postgres:13
+    image: postgres:16.3
     container_name: lti_postgres
     networks:
       internal:

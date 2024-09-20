@@ -18,7 +18,7 @@ You will also need to use on your host the DNS server provided by the environmen
 # -------------------------------------------
 172.20.0.5  moodle.lti
 172.20.0.10 app.lti
-172.20.0.1 app.host.lti
+172.20.0.1  app.host.lti
 ```
 
 After that, bring up the containers:
@@ -31,6 +31,8 @@ Then follow the Moodle installation process at `http://moodle.lti`. The database
 - User: `moodle`
 - Password: `moodle`
 - Database: `moodle`
+
+You can change the admin password to a simpler one in the site settings. For example, for Moodle 4: `Administration / General / Security / Site security settings / Remove password policy`
 
 ## Containers
 

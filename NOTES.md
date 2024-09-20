@@ -4,8 +4,12 @@ https://gist.github.com/WGrape/9b27bb3f798f7385f699e621b326353d
 
 admin/passM0od)e
 
+3.9.2:
 Administration / Security / Quitar password policy
 Administration / Activity Modules / External Tool / Manage Tools
+
+4.3.7:
+Administration / General / Security / Site security settings / Remove password policy
 
 https://blog.devsense.com/2019/php-nginx-docker
 
